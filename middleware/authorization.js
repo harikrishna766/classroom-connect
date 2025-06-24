@@ -1,18 +1,35 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET;
-
-module.exports = (req, res, next) => {
+require('dotenv').config();
+const JWT_SECRET = process.env.JWT_SECRET ;
+const db = require('../config/connectDb');
+module.exports = async (req, res, next) => {
   const token = req.headers['authorization'];
 
-  if (!token || !token.startsWith('Bearer ')) {
+  if (!token) {
     return res.status(401).json({ message: 'Access denied. No token provided.' });
   }
 
   try {
-    const decoded = jwt.verify(token.split(' ')[1], JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const schoolSchema = await db.schoolTenantModel.findOne({ where: { schema_name: decoded.schoolSchema } });
+    if (!schoolSchema) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized',
+      });
+    }
+    const schema = schoolSchema.schema_name;
+    const getUserModel = require('../schema-setup/schemaLoader').getUserModel;
+    const user = await getUserModel(schema).findOne({ where: { token  } });
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized',
+      });
+    }
     req.user = decoded; // attach user info (id, schema, role, etc.)
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid token.' });
+    return res.status(401).json({ success: false, message: err.message });
   }
 };

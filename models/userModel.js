@@ -21,6 +21,10 @@ module.exports = (sequelize, schema) => {
       },
       role_id: DataTypes.INTEGER,
       role_name: DataTypes.STRING,
+      token: DataTypes.STRING,
+      is_first_login: DataTypes.BOOLEAN,
+      otp: DataTypes.STRING,
+      otp_expiry: DataTypes.DATE,
       created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW

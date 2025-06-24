@@ -35,6 +35,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ school_code: school_code,schoolSchema:schoolSchema.schema_name }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
+    await getUserModel(schoolSchema.schema_name).update({ token: token }, { where: { register_no: register_no } });
     return res.status(200).json({
       success: true,
       message: 'Login successful',

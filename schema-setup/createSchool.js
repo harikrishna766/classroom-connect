@@ -28,6 +28,10 @@ exports.createSchoolSchema = async (schemaName) => {
     },
     role_id: DataTypes.INTEGER,
     role_name: DataTypes.STRING,
+    token: DataTypes.STRING,
+    is_first_login: DataTypes.BOOLEAN,
+    otp: DataTypes.STRING,
+    otp_expiry: DataTypes.DATE,
     created_at: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
@@ -64,7 +68,13 @@ exports.createSchoolSchema = async (schemaName) => {
     },
     gender: DataTypes.STRING,
     date_of_birth: DataTypes.DATE,
+    nationality: DataTypes.STRING,
+    state: DataTypes.STRING,
+    district: DataTypes.STRING,
+    pincode: DataTypes.STRING,
     address: DataTypes.TEXT,
+    join_date: DataTypes.DATE,
+    join_class: DataTypes.STRING,
     status: {
       type: DataTypes.STRING,
       defaultValue: 'Active',
