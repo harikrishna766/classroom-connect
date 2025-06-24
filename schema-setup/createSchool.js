@@ -2,115 +2,163 @@
 
 const {sequelize} = require('../config/connectDb');
 const { DataTypes } = require('sequelize');
+const loadTenantModels = require('../utils/loadTenantModels');
+// exports.createSchoolSchema = async (schemaName) => {
+//   // Create schema if not exists
+//   await sequelize.query(`CREATE SCHEMA IF NOT EXISTS ${schemaName}`);
 
-exports.createSchoolSchema = async (schemaName) => {
-  // Create schema if not exists
-  await sequelize.query(`CREATE SCHEMA IF NOT EXISTS ${schemaName}`);
+//   // Define user model
+//   const User = sequelize.define('User', {
+//     name: DataTypes.STRING,
+//     register_no: {
+//       type: DataTypes.STRING,
+//       allowNull: false,
+//       unique: true
+//     },
+//     password: {
+//       type: DataTypes.TEXT,
+//       allowNull: false
+//     },
+//     status: {
+//       type: DataTypes.STRING(10),
+//       defaultValue: 'Active',
+//       validate: {
+//         isIn: [['Active', 'Block']]
+//       }
+//     },
+//     role_id: DataTypes.INTEGER,
+//     role_name: DataTypes.STRING,
+//     token: DataTypes.STRING,
+//     is_first_login: DataTypes.BOOLEAN,
+//     otp: DataTypes.STRING,
+//     otp_expiry: DataTypes.DATE,
+//     created_at: {
+//       type: DataTypes.DATE,
+//       defaultValue: DataTypes.NOW
+//     }
+//   }, {
+//     schema: schemaName,
+//     tableName: 'users',
+//     timestamps: false
+//   });
 
-  // Define user model
-  const User = sequelize.define('User', {
-    name: DataTypes.STRING,
-    register_no: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-    password: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    status: {
-      type: DataTypes.STRING(10),
-      defaultValue: 'Active',
-      validate: {
-        isIn: [['Active', 'Block']]
-      }
-    },
-    role_id: DataTypes.INTEGER,
-    role_name: DataTypes.STRING,
-    token: DataTypes.STRING,
-    is_first_login: DataTypes.BOOLEAN,
-    otp: DataTypes.STRING,
-    otp_expiry: DataTypes.DATE,
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    }
-  }, {
-    schema: schemaName,
-    tableName: 'users',
-    timestamps: false
-  });
+//   // Define student_details model
+//   const StudentDetails = sequelize.define('StudentDetails', {
+//     name: {
+//       type: DataTypes.STRING,
+//       allowNull: false
+//     },
+//     register_no: {
+//       type: DataTypes.STRING,
+//       unique: true,
+//       allowNull: false
+//     },
+//     email: {
+//       type: DataTypes.STRING,
+//       unique: true
+//     },
+//     mother_name: DataTypes.STRING,
+//     father_name: DataTypes.STRING,
+//     mother_phone_no: DataTypes.STRING,
+//     father_phone_no: DataTypes.STRING,
+//     aadhar_no: DataTypes.STRING,
+//     admission_no: {
+//       type: DataTypes.INTEGER,
+//       unique: true
+//     },
+//     gender: DataTypes.STRING,
+//     date_of_birth: DataTypes.DATE,
+//     nationality: DataTypes.STRING,
+//     state: DataTypes.STRING,
+//     district: DataTypes.STRING,
+//     pincode: DataTypes.STRING,
+//     address: DataTypes.TEXT,
+//     join_date: DataTypes.DATE,
+//     join_class: DataTypes.STRING,
+//     status: {
+//       type: DataTypes.STRING,
+//       defaultValue: 'Active',
+//       validate: {
+//         isIn: [['Active', 'Block']]
+//       }
+//     },
+//     created_at: {
+//       type: DataTypes.DATE,
+//       defaultValue: DataTypes.NOW
+//     }
+//   }, {
+//     schema: schemaName,
+//     tableName: 'student_details',
+//     timestamps: false
+//   });
 
-  // Define student_details model
-  const StudentDetails = sequelize.define('StudentDetails', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    register_no: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true
-    },
-    mother_name: DataTypes.STRING,
-    father_name: DataTypes.STRING,
-    mother_phone_no: DataTypes.STRING,
-    father_phone_no: DataTypes.STRING,
-    aadhar_no: DataTypes.STRING,
-    admission_no: {
-      type: DataTypes.INTEGER,
-      unique: true
-    },
-    gender: DataTypes.STRING,
-    date_of_birth: DataTypes.DATE,
-    nationality: DataTypes.STRING,
-    state: DataTypes.STRING,
-    district: DataTypes.STRING,
-    pincode: DataTypes.STRING,
-    address: DataTypes.TEXT,
-    join_date: DataTypes.DATE,
-    join_class: DataTypes.STRING,
-    status: {
-      type: DataTypes.STRING,
-      defaultValue: 'Active',
-      validate: {
-        isIn: [['Active', 'Block']]
-      }
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    }
-  }, {
-    schema: schemaName,
-    tableName: 'student_details',
-    timestamps: false
-  });
+//   // Define staff model
+//   const StaffDetails = sequelize.define('StaffDetails', {
+//     name: DataTypes.STRING,
+//     email: {
+//         type: DataTypes.STRING,
+//         unique: true
+//     },
+//     mobile_no: {
+//         type: DataTypes.STRING,
+//         unique: true
+//     },
+//     register_no: {
+//         type: DataTypes.STRING,
+//         unique: true,
+//         allowNull: false
+//       },
+//       gender : {
+//         type: DataTypes.STRING,
+//         allowNull: false
+//       },
+//       join_date: {
+//         type: DataTypes.DATE,
+//         allowNull: false
+//       },
+//       qualification: {
+//         type: DataTypes.STRING,
+//         allowNull: false
+//       },
+//       designation: {
+//         type: DataTypes.STRING,
+//         allowNull: false
+//       },
 
-  // Define staff model
-  const Staff = sequelize.define('Staff', {
-    name: DataTypes.STRING,
-    email: {
-      type: DataTypes.STRING,
-      unique: true
-    },
-    password: DataTypes.TEXT
-  }, {
-    schema: schemaName,
-    tableName: 'staff',
-    timestamps: false
-  });
+//     aadhar_no: {
+//         type: DataTypes.STRING,
+//     },
+//     pan_no: {
+//         type: DataTypes.STRING,
+//     },
+//     address: {
+//         type: DataTypes.TEXT,
+//         allowNull: false
+//     },
+//     status: {
+//         type: DataTypes.STRING,
+//         defaultValue: 'Active',
+//         validate: {
+//             isIn: [['Active', 'Block']]
+//         }
+//     },
+   
+//     created_at: {
+//         type: DataTypes.DATE,
+//         defaultValue: DataTypes.NOW
+//     }
+// }, {
+//     schema: schemaName,
+//     tableName: 'staff_details',
+//     timestamps: false
+// });
 
-  // Sync all models
-  await User.sync();
-  await StudentDetails.sync();
-  await Staff.sync();
-};
+
+//   // Sync all models
+//   await User.sync();
+//   await StudentDetails.sync();
+//   await StaffDetails.sync();
+// };
 
 
 // exports.createSchoolSchema = async (schemaName) => {
@@ -163,3 +211,16 @@ exports.createSchoolSchema = async (schemaName) => {
 //     );
 //   `);
 // };
+
+
+
+
+exports.createSchoolSchema = async (schemaName) => {
+  // Create schema if not exists
+  await sequelize.query(`CREATE SCHEMA IF NOT EXISTS ${schemaName}`);
+
+  // Load and sync all tenant models for the new schema
+  const tenantModels = await loadTenantModels(sequelize, schemaName);
+
+  return tenantModels; // Optional: return models if needed
+};

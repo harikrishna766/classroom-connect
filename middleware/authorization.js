@@ -3,7 +3,7 @@ require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET ;
 const db = require('../config/connectDb');
 module.exports = async (req, res, next) => {
-  const token = req.headers['authorization'];
+const token = req.headers['authorization'];
 
   if (!token) {
     return res.status(401).json({ message: 'Access denied. No token provided.' });
@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
         message: 'Unauthorized',
       });
     }
-    req.user = decoded; // attach user info (id, schema, role, etc.)
+    req.user = decoded; // attach user info (school_code, schoolSchema, etc.)
     next();
   } catch (err) {
     return res.status(401).json({ success: false, message: err.message });

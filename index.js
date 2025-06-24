@@ -3,6 +3,8 @@ const app = express();
 // const pool = require('./config/db')
 const schoolRoutes = require('./routers/school.route');
 const studentRoutes = require('./routers/student.route');
+const staffRoutes = require('./routers/staff.route');
+const createSchemaRoute = require('./routers/createSchema.route');
 require('dotenv').config();
 const PORT = process.env.PORT;
 const sequelize = require('./config/connectDb');
@@ -11,6 +13,8 @@ app.use(express.json()); // for JSON body parsing
 // Base route
 app.use('/api/school', schoolRoutes);
 app.use('/api/student', studentRoutes);
+app.use('/api/staff', staffRoutes);
+app.use('/api/createSchema', createSchemaRoute);
 app.get('/', (req, res) => {
   res.send('Hello School Project!');
 });
