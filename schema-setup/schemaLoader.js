@@ -1,7 +1,7 @@
 const {sequelize} = require('../config/connectDb');
-const defineUserModel = require('../models/userModel');
-const defineStudentModel = require('../models/studentModel');
-const defineStaffModel = require('../models/staffModel');
+const defineUserModel = require('../models/tenantModel/userModel');
+const defineStudentModel = require('../models/tenantModel/studentModel');
+const defineStaffModel = require('../models/tenantModel/staffModel');
 
 exports.getUserModel = (schema_name) => {
     return defineUserModel(sequelize, schema_name);

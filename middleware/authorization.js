@@ -14,7 +14,7 @@ const token = req.headers['authorization'];
     const schoolSchema = await db.schoolTenantModel.findOne({ where: { schema_name: decoded.schoolSchema } });
     if (!schoolSchema) {
       return res.status(401).json({
-        success: false,
+        success: false, 
         message: 'Unauthorized',
       });
     }
